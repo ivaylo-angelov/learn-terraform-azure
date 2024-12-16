@@ -21,7 +21,7 @@ steps:
   - task: AzureCLI@2
     displayName: 'Terraform Init'
     inputs:
-      azureSubscription: '<Service-Principal-Service-Connection>'
+      azureSubscription: 'Terraform ARM'
       scriptType: bash
       scriptLocation: inlineScript
       inlineScript: |
@@ -30,7 +30,7 @@ steps:
   - task: AzureCLI@2
     displayName: 'Terraform Plan'
     inputs:
-      azureSubscription: '<Service-Principal-Service-Connection>'
+      azureSubscription: 'Terraform ARM'
       scriptType: bash
       scriptLocation: inlineScript
       inlineScript: |
@@ -39,7 +39,7 @@ steps:
   - task: AzureCLI@2
     displayName: 'Terraform Apply'
     inputs:
-      azureSubscription: '<Service-Principal-Service-Connection>'
+      azureSubscription: 'Terraform ARM'
       scriptType: bash
       scriptLocation: inlineScript
       inlineScript: |
