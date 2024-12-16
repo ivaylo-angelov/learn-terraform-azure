@@ -14,33 +14,20 @@ variables:
   ARM_TENANT_ID: $(servicePrincipalTenantId)
 
 steps:
-  - task: UseTerraform@0
-    inputs:
-      versionSpec: 'latest'
+- task: TerraformCLI@1
+  displayName: 'terraform init'
+  inputs:
+    command: init
+    environmentServiceName: 'Terraform ARM'
+    # Subscription id for provider to target. This can be used to specify the subscription when using Management Group scoped
+    # Service connection or to override the subscription id defined in a Subscription scoped service connection
+    providerAzureRmSubscriptionId: 'c56e8840-689a-46f8-aee9-85f838735de4'
 
-  - task: AzureCLI@2
-    displayName: 'Terraform Init'
-    inputs:
-      azureSubscription: 'Terraform ARM'
-      scriptType: bash
-      scriptLocation: inlineScript
-      inlineScript: |
-        terraform init
-
-  - task: AzureCLI@2
-    displayName: 'Terraform Plan'
-    inputs:
-      azureSubscription: 'Terraform ARM'
-      scriptType: bash
-      scriptLocation: inlineScript
-      inlineScript: |
-        terraform plan
-
-  - task: AzureCLI@2
-    displayName: 'Terraform Apply'
-    inputs:
-      azureSubscription: 'Terraform ARM'
-      scriptType: bash
-      scriptLocation: inlineScript
-      inlineScript: |
-        terraform apply -auto-approve
+- task: TerraformCLI@1
+  displayName: 'terraform plan'
+  inputs:
+    command: plan
+    environmentServiceName: 'Terraform ARM'
+    # Subscription id for provider to target. This can be used to specify the subscription when using Management Group scoped
+    # Service connection or to override the subscription id defined in a Subscription scoped service connection
+    providerAzureRmSubscriptionId: 'c56e8840-689a-46f8-aee9-85f838735de4'
