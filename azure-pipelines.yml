@@ -1,0 +1,46 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  # Define the Azure service connection created earlier
+  ARM_CLIENT_ID: $(servicePrincipalClientId)
+  ARM_CLIENT_SECRET: $(servicePrincipalClientSecret)
+  ARM_SUBSCRIPTION_ID: $(servicePrincipalSubscriptionId)
+  ARM_TENANT_ID: $(servicePrincipalTenantId)
+
+steps:
+  - task: UseTerraform@0
+    inputs:
+      versionSpec: 'latest'
+
+  - task: AzureCLI@2
+    displayName: 'Terraform Init'
+    inputs:
+      azureSubscription: '<Service-Principal-Service-Connection>'
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+        terraform init
+
+  - task: AzureCLI@2
+    displayName: 'Terraform Plan'
+    inputs:
+      azureSubscription: '<Service-Principal-Service-Connection>'
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+        terraform plan
+
+  - task: AzureCLI@2
+    displayName: 'Terraform Apply'
+    inputs:
+      azureSubscription: '<Service-Principal-Service-Connection>'
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+        terraform apply -auto-approve
